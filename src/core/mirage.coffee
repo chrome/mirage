@@ -1,11 +1,11 @@
 # Base class
 
 class Mirage
-  @renderer: (renderer) ->
-    if renderer?
-      @renderer = renderer
+  @renderer: (rendererClass) ->
+    if rendererClass?
+      @rendererClass = rendererClass
     else
-      @renderer ?= new Mirage.Renderer()
+      @rendererClass ?= new Mirage.Renderer()
 
   @controls: (controlsClass) ->
     if controlsClass?
