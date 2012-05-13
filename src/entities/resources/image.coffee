@@ -1,9 +1,12 @@
 class Mirage.ImageResource extends Mirage.Resource
 
-  image: null
 
-  width: 0
-  height: 0
+  constructor: ->
+    @image = null
+
+    @width = 0
+    @height = 0
+    super
 
   load: (cb) ->
     @image = new Image()

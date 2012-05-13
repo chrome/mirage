@@ -1,5 +1,7 @@
 class Mirage.ResourceManager
-  resources: {}
+
+  constructor: ->
+    @resources = {}
 
   add: (resource) ->
     @resources[resource.id] = resource

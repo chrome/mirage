@@ -1,16 +1,15 @@
 class Mirage.Sprite extends Mirage.Actor
 
-  image: null
-
-  x: 0
-  y: 0
-  angle: 0
-  scale: 1
-
-  initialize: (@image) ->
+  constructor: (@id, @image, options...) ->
+    @x = 0
+    @y = 0
+    @angle = 0
+    @scale = 1
+    @initialize?(options...)
 
   moveTo: (dX, dY) ->
     [@x, @y] = [dX, dY]
+    @
 
   render: ->
     Mirage.renderer()

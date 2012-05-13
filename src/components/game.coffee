@@ -1,9 +1,11 @@
 class Mirage.Game extends Mirage.Object
 
-  scenes: {}
-  activeScene: null
+  constructor: ->
+    @scenes = {}
+    @activeScene = null
 
-  lastLoopTime: 0
+    @lastLoopTime = 0
+    super
 
   addScene: (scene) ->
     @scenes[scene.id] = scene

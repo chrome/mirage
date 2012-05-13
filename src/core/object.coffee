@@ -1,7 +1,6 @@
 # Base mirage object
 
 class Mirage.Object
-  id: null
 
   constructor: (@id, options...) ->
     @initialize?(options...)

@@ -1,13 +1,12 @@
 class Mirage.Controls
 
-  keys: {}
-  mouse:
-    x: 0
-    y: 0
-    button: false
-    stillDown: false
-
   constructor: (targetElement = window) ->
+    @keys = {}
+    @mouse =
+      x: 0
+      y: 0
+      button: false
+      stillDown: false
 
     targetElement.onmousedown = (event) =>
       event.preventDefault()

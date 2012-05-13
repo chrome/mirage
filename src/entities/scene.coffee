@@ -1,6 +1,8 @@
 class Mirage.Scene extends Mirage.Object
 
-  actors: {}
+  constructor: ->
+    @actors = {}
+    super
 
   addActor: (actor) ->
     @actors[actor.id] = actor
@@ -17,4 +19,7 @@ class Mirage.Scene extends Mirage.Object
     actor.render?() for id, actor of @actors
 
   action: (deltaTime) ->
-    actor.action?(deltaTime) for id, actor of @actors
+    for id, actor of @actors
+      actor.preAction?(deltaTime)
+      actor.action?(deltaTime)
+
