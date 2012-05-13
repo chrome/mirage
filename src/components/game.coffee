@@ -5,9 +5,6 @@ class Mirage.Game extends Mirage.Object
 
   lastLoopTime: 0
 
-  constructor: (@id) ->
-    @initialize?()
-
   addScene: (scene) ->
     @scenes[scene.id] = scene
 
@@ -20,7 +17,11 @@ class Mirage.Game extends Mirage.Object
   setActiveScene: (id) ->
     @activeScene = @getScene(id)
 
+  action: (deltaTime) ->
+    @activeScene?.action?(deltaTime)
+
   render: ->
+    Mirage.getRenderer().clear()
     @activeScene?.render()
 
   startLoop: ->
@@ -40,11 +41,14 @@ class Mirage.Game extends Mirage.Object
 
   mainLoop: ->
     now = Date.now()
+    @lastLoopTime = now if @lastLoopTime == 0
     deltaTime = now - @lastLoopTime
     @lastLoopTime = now
 
-    @activeScene?.action?(deltaTime)
-    @activeScene?.render?()
+    @action(deltaTime / 1000)
+    @render()
 
     @loop(deltaTime)
     @queueNextLoop()
+
+  loop: (deltaTime) ->
