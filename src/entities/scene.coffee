@@ -2,19 +2,19 @@ class Mirage.Scene extends Mirage.Object
 
   actors: {}
 
-  constructor: (@id) ->
-
-  addActor: (object) ->
-    @actors[object.id] = object
+  addActor: (actor) ->
+    @actors[actor.id] = actor
+    @
 
   removeActor: (id) ->
     delete @actors[object.id]
+    @
 
   getActor: (id) ->
     @actors[id]
 
   render: ->
-    actor.render?() for actor in @actors
+    actor.render?() for id, actor of @actors
 
   action: (deltaTime) ->
-    actor.action?(deltaTime) for actor in @actors
+    actor.action?(deltaTime) for id, actor of @actors
