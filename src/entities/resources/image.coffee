@@ -5,8 +5,6 @@ class Mirage.ImageResource extends Mirage.Resource
   width: 0
   height: 0
 
-  constructor: (@id, @url) ->
-
   load: (cb) ->
     @image = new Image()
     @image.onload = =>
