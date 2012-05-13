@@ -31,7 +31,7 @@ class Mirage.Renderer
 
     image = image.get() if image.get?
     @context.translate(x, y)
-    @context.rotate(-angle)
+    @context.rotate(angle)
     @context.scale(scale, scale)
 
     if imageX? and imageY? and imageW? and imageH?
@@ -40,7 +40,7 @@ class Mirage.Renderer
       @context.drawImage(image, -image.width / 2, -image.height / 2)
 
     @context.scale(1 / scale, 1 / scale)
-    @context.rotate(angle)
+    @context.rotate(-angle)
     @context.translate(-x, -y)
     @
 
