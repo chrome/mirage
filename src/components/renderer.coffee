@@ -1,18 +1,17 @@
 class Mirage.Renderer
-  constructor: (@hostElement) ->
-    @hostElement = $(@hostElement)
+  constructor: (@hostElementId) ->
+    @hostElement = document.getElementById(@hostElementId)
+    @hostElement ||= document.getElementsByTagName('body')[0]
     @initialize()
 
   initialize: ->
-    @canvas = $('<canvas />')
-    @canvas
-      .attr(
-        width: @hostElement.width()
-        height: @hostElement.height()
-      )
-    @hostElement.empty().append(@canvas)
-    console.log @hostElement
-    @context = @canvas.get(0).getContext('2d')
+    @canvas = document.createElement('canvas')
+    @canvas.setAttribute('width', @hostElement.offsetWidth)
+    @canvas.setAttribute('height', @hostElement.offsetHeight)
+
+    @hostElement.innerHTML = ''
+    @hostElement.appendChild(@canvas)
+    @context = @canvas.getContext('2d')
 
   getCanvas: ->
     @canvas
@@ -25,9 +24,6 @@ class Mirage.Renderer
     @context.translate(x, y)
     @context.rotate(-angle)
     @context.scale(scale, scale)
-
-    dx = image.width / 2
-    dy = image.height / 2
 
     if imageX? and imageY? and imageW? and imageH?
       @context.drawImage(image, imageX, imageY, imageW, imageH, -imageW / 2, -imageH / 2, imageW, imageH)
