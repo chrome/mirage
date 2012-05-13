@@ -23,14 +23,14 @@ unitedFiles = ->
     mirageCoffee += fs.readFileSync("src/#{file}.coffee") + "\n"
   mirageCoffee
 
-task 'build', 'Builds mirage.coffee file', ->
-  print "Building mirage.coffee...\n"
+task 'build', 'Builds mirage.js file', ->
+  print "Building...\n"
   mirageCoffee = unitedFiles()
   fs.writeFileSync('build/mirage.coffee', mirageCoffee)
   fs.writeFileSync('build/mirage.js', coffee.compile(mirageCoffee))
   print "Done.\n"
 
-task 'test', 'Run mocha specs', ->
+task 'test', 'Start test application', ->
   print "Starting web server...\n"
   server = http.createServer (req, res) ->
     if req.url == '/'
