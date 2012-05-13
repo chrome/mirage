@@ -7,23 +7,29 @@ class Mirage.Controls
     button: false
     stillDown: false
 
-  constructor: ->
-    window.onmousedown = (event) =>
+  constructor: (targetElement = window) ->
+
+    targetElement.onmousedown = (event) =>
+      event.preventDefault()
       @mouse.button = true
       @mouse.stillDown = true
 
-    window.onmouseup = (event) =>
+    targetElement.onmouseup = (event) =>
+      event.preventDefault()
       @mouse.stillDown = true
 
-    window.onkeydown = (event) =>
-      @set event.keyCode, true
-
-    window.onkeyup = (event) =>
-      @set event.keyCode, false
-
-    window.onmousemove = (event) =>
+    targetElement.onmousemove = (event) =>
       @mouse.x = event.clientX
       @mouse.y = event.clientY
+
+    targetElement.onkeydown = (event) =>
+      event.preventDefault()
+      @set event.keyCode, true
+
+    targetElement.onkeyup = (event) =>
+      event.preventDefault()
+      @set event.keyCode, false
+
 
 
 
