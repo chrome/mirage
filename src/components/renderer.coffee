@@ -45,3 +45,4 @@ class Mirage.Renderer
     @
 
   clear: ->
+    @canvas.setAttribute('width', @canvas.getAttribute('width'))
