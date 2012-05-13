@@ -38,10 +38,16 @@ task 'test', 'Start test application', ->
       res.write fs.readFileSync('test/index.html')
     else if req.url == '/mirage.js'
       res.writeHead 200, {'Content-Type': 'text/javascript'}
-      res.write coffee.compile(unitedFiles())
+      try
+        res.write coffee.compile(unitedFiles())
+      catch e
+        res.write "console.error('mirage.coffee compile error: #{e.message}');"
     else if req.url == '/app.js'
       res.writeHead 200, {'Content-Type': 'text/javascript'}
-      res.write coffee.compile(fs.readFileSync('test/app.coffee') + '')
+      try
+        res.write coffee.compile(fs.readFileSync('test/app.coffee') + '')
+      catch e
+        res.write "console.error('app.coffee compile error: #{e.message}');"
     else if (match = /images\/([\w\-_\.]+)/.exec(req.url))?
       fileName = "test/images/#{match[1]}"
       if path.existsSync(fileName)
