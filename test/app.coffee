@@ -1,25 +1,31 @@
 class TestSprite extends Mirage.AnimatedSprite
-  direction: 0
 
   initialize: (@flyAnimation, @standAnimation) ->
     @angle = Math.PI / 2
+    @inMove = false
 
   action: (dT) ->
+    @inMove = false
     if Mirage.controls().isDown(Mirage.KEYS.right)
-      @direction = 1
+      @angle += Math.PI / 2 * dT
+      @inMove = true
     else if Mirage.controls().isDown(Mirage.KEYS.left)
-      @direction = -1
-    else
-      @direction = 0
+      @angle -= Math.PI / 2 * dT
+      @inMove = true
 
-    if @direction == 0
-      @setAnimation(@standAnimation)
-      @stop()
-    else
+    if Mirage.controls().isDown(Mirage.KEYS.up)
+      dX = Math.cos(@angle - Math.PI / 2) * 200 * dT
+      dY = Math.sin(@angle - Math.PI / 2) * 200 * dT
+      @x += dX
+      @y += dY
+      @inMove = true
+
+    if @inMove
       @setAnimation(@flyAnimation)
       @play()
-
-    @x += 400 * dT * @direction
+    else
+      @setAnimation(@standAnimation)
+      @stop()
 
 class TestGame extends Mirage.Game
   initialize: ->
