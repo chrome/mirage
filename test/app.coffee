@@ -1,17 +1,19 @@
 class TestSprite extends Mirage.Sprite
-  direction: 1
+  direction: 0
 
   action: (dT) ->
-    @x += 400 * dT * @direction
-
-    if @x > 1000
-      @direction = -1
-    if @x < 300
+    if Mirage.controls().isDown(Mirage.KEYS.right)
       @direction = 1
+    else if Mirage.controls().isDown(Mirage.KEYS.left)
+      @direction = -1
+    else
+      @direction = 0
 
+    @x += 400 * dT * @direction
 
 class TestGame extends Mirage.Game
   initialize: ->
+    Mirage.controls(new Mirage.Controls())
     @rm = new Mirage.ResourceManager()
 
     @rm.add(new Mirage.ImageResource('ship', '/images/spaceship.png'))
@@ -29,39 +31,5 @@ class TestGame extends Mirage.Game
       .getActor('ship')
         .moveTo(300, 200)
 
-
-
-
 window.onload = ->
   game = new TestGame()
-#   rm = new Mirage.ResourceManager()
-#   rm.add new Mirage.ImageResource('ship', '/images/spaceship.png')
-
-#   rm.loadAll ->
-#     Mirage.getRenderer()
-#       .drawImage(
-#         rm.get('ship')
-#         x: 200
-#         y: 200
-#         cropStartX: 42
-#         cropWidth: 42
-#         cropHeight: 42
-#         angle: Math.PI / 3
-#       )
-#       .drawImage(
-#         rm.get('ship')
-#         x: 200
-#         y: 100
-#         cropWidth: 42
-#         cropHeight: 42
-#         angle: Math.PI / 5
-#         scale: 2
-#       )
-#       .drawImage(
-#         rm.get('ship')
-#         x: 100
-#         y: 100
-#         cropStartX: 42
-#         cropWidth: 42
-#         cropHeight: 42
-#       )
