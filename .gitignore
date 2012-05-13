@@ -1,3 +1,4 @@
-build
+build/*
 dummy
 .DS_Store
+node_modules
