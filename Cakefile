@@ -16,6 +16,7 @@ unitedFiles = ->
     'entities/scene'
     'components/renderer'
     'components/resource_manager'
+    'components/controls'
     'components/game'
   ]
   mirageCoffee = ''

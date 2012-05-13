@@ -13,7 +13,7 @@ class Mirage.Sprite extends Mirage.Actor
     [@x, @y] = [dX, dY]
 
   render: ->
-    Mirage.getRenderer()
+    Mirage.renderer()
       .drawImage(
         @image
         x: @x

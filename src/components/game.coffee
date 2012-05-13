@@ -21,7 +21,7 @@ class Mirage.Game extends Mirage.Object
     @activeScene?.action?(deltaTime)
 
   render: ->
-    Mirage.getRenderer().clear()
+    Mirage.renderer().clear()
     @activeScene?.render()
 
   startLoop: ->
@@ -46,6 +46,7 @@ class Mirage.Game extends Mirage.Object
     @lastLoopTime = now
 
     @action(deltaTime / 1000)
+    Mirage.controls()?.clear()
     @render()
 
     @loop(deltaTime)

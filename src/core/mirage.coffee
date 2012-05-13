@@ -1,9 +1,16 @@
 # Base class
 
 class Mirage
-  @setRenderer: (@renderer) ->
+  @renderer: (renderer) ->
+    if renderer?
+      @renderer = renderer
+    else
+      @renderer ?= new Mirage.Renderer()
 
-  @getRenderer: ->
-    @renderer ?= new Mirage.Renderer('body')
+  @controls: (controlsClass) ->
+    if controlsClass?
+      @controlsClass = controlsClass
+    else
+      @controlsClass
 
 (exports ? @).Mirage = Mirage
