@@ -19,7 +19,16 @@ class Mirage.Renderer
   getContext: ->
     @context
 
-  drawImage: (x, y, angle, scale, image, imageX, imageY, imageW, imageH) ->
+  drawImage: (image, options = {}) ->
+    x = options.x || 0
+    y = options.y || 0
+    scale = options.scale || 1
+    angle = options.angle || 0
+    imageX = options.cropStartX || 0
+    imageY = options.cropStartY || 0
+    imageW = options.cropWidth || image.width - imageX
+    imageH = options.cropHeight || image.height - imageY
+
     image = image.get() if image.get?
     @context.translate(x, y)
     @context.rotate(-angle)
@@ -33,5 +42,6 @@ class Mirage.Renderer
     @context.scale(1 / scale, 1 / scale)
     @context.rotate(angle)
     @context.translate(-x, -y)
+    @
 
   clear: ->

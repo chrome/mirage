@@ -3,7 +3,30 @@ window.onload = ->
   rm.add new Mirage.ImageResource('ship', '/images/spaceship.png')
 
   rm.loadAll ->
-    Mirage.getRenderer().drawImage(500, 50, 0, 1, rm.get('ship'))
-    Mirage.getRenderer().drawImage(100, 100, Math.PI / 3, 2, rm.get('ship'))
-    Mirage.getRenderer().drawImage(200, 300, Math.PI / 5, 1.5, rm.get('ship'))
-    Mirage.getRenderer().drawImage(300, 300, 0, 1, rm.get('ship'))
+    Mirage.getRenderer()
+      .drawImage(
+        rm.get('ship')
+        x: 200
+        y: 200
+        cropStartX: 42
+        cropWidth: 42
+        cropHeight: 42
+        angle: Math.PI / 3
+      )
+      .drawImage(
+        rm.get('ship')
+        x: 200
+        y: 100
+        cropWidth: 42
+        cropHeight: 42
+        angle: Math.PI / 5
+        scale: 2
+      )
+      .drawImage(
+        rm.get('ship')
+        x: 100
+        y: 100
+        cropStartX: 42
+        cropWidth: 42
+        cropHeight: 42
+      )
