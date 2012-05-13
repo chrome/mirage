@@ -12,6 +12,7 @@ unitedFiles = ->
     'entities/resources/resource'
     'entities/resources/image'
     'entities/actor'
+    'entities/sprite'
     'entities/scene'
     'components/renderer'
     'components/resource_manager'
