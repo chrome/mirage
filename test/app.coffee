@@ -1,9 +1,3 @@
-# # alias_chain на initialize
-# # метод initializeVariables
-# # constructor: (@id, @options = {}) ->
-# # метод validateOptions
-# # @initialize: (@options = {}) ->
-
 class Bullet extends Mirage.AnimatedSprite
 
   @initialize (options) ->
@@ -26,14 +20,11 @@ class Bullet extends Mirage.AnimatedSprite
 
     @speed = 600
     @distantion = 1000
-    # console.log 'bullet', @startX, @startY
     @moveTo(@startX, @startY)
-    # console.log 'bullet', @x, @y
 
   action: (dT) ->
-    dX = Math.cos(@angle - Math.PI / 2) * @speed * dT
-    dY = Math.sin(@angle - Math.PI / 2) * @speed * dT
-    @translate(dX, dY)
+    dXY = Mirage.Tools.getVector(@angle - Math.PI / 2, @speed * dT)
+    @translate(dXY.x, dXY.y)
 
     if Mirage.Tools.distantion(@startX, @startY, @x, @y) >= @distantion
       @die()
@@ -43,6 +34,7 @@ class Bullet extends Mirage.AnimatedSprite
 class Spaceship  extends Mirage.AnimatedSprite
   @initialize (options) ->
     @rm = window.game.rm
+
 
     unless @rm.get('ship-fly')
       animation = new Mirage.Animation('ship-fly')
@@ -68,8 +60,10 @@ class Spaceship  extends Mirage.AnimatedSprite
     @fireTime = 0
     @activeGun = true
 
-    @angle = Math.PI / 2
-    @inMove = false
+    @angle = 0
+
+    @movingVector = angle: @angle, speed: 0
+    @maxSpeed = 300
 
   fire: (dT) ->
     @fireTime += dT * 1000
@@ -101,28 +95,32 @@ class Spaceship  extends Mirage.AnimatedSprite
 
 
   action: (dT) ->
-    @inMove = false
     if Mirage.controls().isDown(Mirage.KEYS.space)
       @fire(dT)
 
+    @inMove = false
 
     if Mirage.controls().isDown(Mirage.KEYS.right)
-      @angle += Math.PI / 2 * dT
-      @inMove = true
+      @angle += Math.PI * dT
     else if Mirage.controls().isDown(Mirage.KEYS.left)
-      @angle -= Math.PI / 2 * dT
-      @inMove = true
+      @angle -= Math.PI * dT
 
     if Mirage.controls().isDown(Mirage.KEYS.up)
-      dX = Math.cos(@angle - Math.PI / 2) * 200 * dT
-      dY = Math.sin(@angle - Math.PI / 2) * 200 * dT
-      @x += dX
-      @y += dY
       @inMove = true
+      thrust = 200 * dT
+      thrustVector = angle: @angle - Math.PI / 2, speed: thrust
+      @movingVector = Mirage.Tools.sumVectors(@movingVector, thrustVector)
+      if @movingVector.speed > @maxSpeed
+        @movingVector.speed = @maxSpeed
+    else
+      @movingVector.speed -= 100 * dT
 
+      if @movingVector.speed < 0
+        @movingVector.speed = 0
 
-
-
+    dXY = Mirage.Tools.getVector(@movingVector.angle, @movingVector.speed)
+    @x += dXY.x * dT
+    @y += dXY.y * dT
 
     if @inMove
       @setAnimation(@rm.get('ship-fly'))
