@@ -10,6 +10,8 @@ class Mirage.Object
         catch error
           console.log error.message
 
+  getName: ->
+    @.constructor.name
 
   extractOptions: (options, requiredOptions...) ->
     for requiredOption in requiredOptions
