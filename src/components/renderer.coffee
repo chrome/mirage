@@ -45,5 +45,10 @@ class Mirage.Renderer
     @context.translate(-x, -y)
     @
 
-  clear: ->
-    @canvas.setAttribute('width', @canvas.getAttribute('width'))
+  clear: (backgroundImage)->
+    if backgroundImage?
+      ptrn = @context.createPattern(backgroundImage.get(),'repeat')
+      @context.fillStyle = ptrn
+      @context.fillRect(-@canvas.width,-@canvas.height,@canvas.width*3,@canvas.height*3)
+    else
+      @canvas.setAttribute('width', @canvas.getAttribute('width'))

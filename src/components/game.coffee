@@ -26,8 +26,10 @@ class Mirage.Game
     @activeScene?.action?(deltaTime)
 
   render: ->
-    Mirage.renderer().clear()
+    Mirage.renderer().getContext().translate(-@activeScene.x, -@activeScene.y)
+    Mirage.renderer().clear(@activeScene.backgroundImage)
     @activeScene?.render()
+    Mirage.renderer().getContext().translate(@activeScene.x, @activeScene.y)
 
   startLoop: ->
     @queueNextLoop()

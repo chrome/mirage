@@ -21,7 +21,7 @@ class Asteroid extends Mirage.AnimatedSprite
 
     @rotateSpeed = Math.random() * Math.PI / 2
     @angle = Math.random() * Math.PI * 2
-    @speed = Math.random() * 50 + 20
+    @speed = Math.random() * 20 + 10
 
     @moveXY = Mirage.Tools.getVector(@angle, @speed)
 
@@ -181,6 +181,8 @@ class Spaceship  extends Mirage.AnimatedSprite
     if @y > Mirage.renderer().getCanvas().height
       @y = Mirage.renderer().getCanvas().height
 
+    window.game.getScene('main').setCameraPosition(@x - Mirage.renderer().getCanvas().width / 2, @y - Mirage.renderer().getCanvas().height / 2)
+
 
 class TestGame extends Mirage.Game
 
@@ -189,6 +191,7 @@ class TestGame extends Mirage.Game
     @rm = new Mirage.ResourceManager()
 
     @rm.add(new Mirage.ImageResource('ship', url: '/images/spaceship.png'))
+    @rm.add(new Mirage.ImageResource('stars', url: '/images/tiled_space.jpg'))
 
     @addScene(new Mirage.Scene('main'))
     @setActiveScene('main')
@@ -198,6 +201,7 @@ class TestGame extends Mirage.Game
       @startLoop()
 
   createActors: ->
+    @getScene('main').setBackground(@rm.get('stars'))
     @getScene('main')
       .addActor(new Spaceship('main-ship'))
     for i in [0..10]
