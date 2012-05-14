@@ -22,14 +22,12 @@ class Mirage.Controls
       @mouse.y = event.clientY
 
     targetElement.onkeydown = (event) =>
-      event.preventDefault()
+      # event.preventDefault()
       @set event.keyCode, true
 
     targetElement.onkeyup = (event) =>
       event.preventDefault()
       @set event.keyCode, false
-
-
 
 
   set: (keyCode, pressed) ->
@@ -38,8 +36,10 @@ class Mirage.Controls
     else
       @keys[keyCode]?.stillDown = false
 
+
   isDown: (keyCode) ->
     @keys[keyCode]? && @keys[keyCode].down
+
 
   clear: ->
     for code, key of @keys
@@ -53,3 +53,4 @@ Mirage.KEYS =
   'down':  40
   'left':  37
   'right': 39
+  'space': 32
