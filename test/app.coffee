@@ -1,3 +1,46 @@
+class Asteroid extends Mirage.AnimatedSprite
+  @initialize (options) ->
+    @extractOptions(options, 'x', 'y')
+
+    @rm = window.game.rm
+
+    @image = @rm.get('ship')
+
+    unless @rm.get('asteroid')
+      animation = new Mirage.Animation('asteroid')
+      animation
+        .addFrame(0, 245, 60, 55)
+        .addFrame(0, 305, 55, 45)
+        .addFrame(63, 260, 35, 35)
+        .setSpeed(1)
+      @rm.add(animation)
+
+    @setAnimation(@rm.get('asteroid'))
+    @stop()
+    @currentFrame = Math.round(Math.random() * 2)
+
+    @rotateSpeed = Math.random() * Math.PI / 2
+    @angle = Math.random() * Math.PI * 2
+    @speed = Math.random() * 50 + 20
+
+    @moveXY = Mirage.Tools.getVector(@angle, @speed)
+
+  action: (dT) ->
+    @angle += @rotateSpeed * dT
+    @translate(@moveXY.x * dT, @moveXY.y * dT)
+    if @x < 0
+      @x = 0
+      @moveXY.x = - @moveXY.x
+    if @x > Mirage.renderer().getCanvas().width
+      @x = Mirage.renderer().getCanvas().width
+      @moveXY.x = - @moveXY.x
+    if @y < 0
+      @y = 0
+      @moveXY.y = - @moveXY.y
+    if @y > Mirage.renderer().getCanvas().height
+      @y = Mirage.renderer().getCanvas().height
+      @moveXY.y = - @moveXY.y
+
 class Bullet extends Mirage.AnimatedSprite
 
   @initialize (options) ->
@@ -157,6 +200,9 @@ class TestGame extends Mirage.Game
   createActors: ->
     @getScene('main')
       .addActor(new Spaceship('main-ship'))
+    for i in [0..10]
+      @getScene('main')
+        .addActor(new Asteroid("ast#{i}", x: Math.round(Math.random() * 1000), y: Math.round(Math.random() * 600)))
 
 window.onload = ->
   window.game = new TestGame()
