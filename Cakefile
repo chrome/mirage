@@ -9,6 +9,7 @@ unitedFiles = ->
   files = [
     'core/mirage'
     'core/object'
+    'core/tools'
     'entities/resources/resource'
     'entities/resources/image'
     'entities/resources/animation'
