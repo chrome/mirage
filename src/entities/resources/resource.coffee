@@ -1,6 +1,6 @@
 class Mirage.Resource extends Mirage.Object
 
-  constructor: (@id, @url) ->
+  @initialize ->
     @loaded = false
 
   load: (cb) ->

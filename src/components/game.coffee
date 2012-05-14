@@ -1,11 +1,14 @@
-class Mirage.Game extends Mirage.Object
+class Mirage.Game
+
+  @initialize: (initializer) ->
+    @prototype.initialize = initializer
 
   constructor: ->
     @scenes = {}
     @activeScene = null
 
     @lastLoopTime = 0
-    super
+    @initialize?()
 
   addScene: (scene) ->
     @scenes[scene.id] = scene

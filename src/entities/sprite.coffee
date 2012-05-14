@@ -1,14 +1,19 @@
 class Mirage.Sprite extends Mirage.Actor
 
-  constructor: (@id, @image, options...) ->
+  @initialize (options) ->
+    @extractOptions(options, 'image')
     @x = 0
     @y = 0
     @angle = 0
     @scale = 1
-    @initialize?(options...)
 
   moveTo: (dX, dY) ->
     [@x, @y] = [dX, dY]
+    @
+
+  translate: (dX, dY) ->
+    @x += dX
+    @y += dY
     @
 
   render: ->

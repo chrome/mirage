@@ -1,4 +1,5 @@
 class Mirage.Renderer
+
   constructor: (@hostElementId) ->
     @hostElement = document.getElementById(@hostElementId)
     @hostElement ||= document.getElementsByTagName('body')[0]

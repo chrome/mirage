@@ -1,11 +1,10 @@
 class Mirage.Animation extends Mirage.Resource
 
 
-  constructor: ->
+  @initialize ->
     @frames = []
     @loop = true
     @speed = 2 # frames per second
-    super
 
   addFrame: (x, y, width, height) ->
     @frames.push

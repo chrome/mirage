@@ -1,12 +1,11 @@
 class Mirage.AnimatedSprite extends Mirage.Sprite
 
 
-  constructor: (@id, @image, options...) ->
+  @initialize ->
     @currentAnimation = null
     @currentFrame = 0
     @lastFrameTime = 0
     @playing = false
-    super
 
   setAnimation: (animation) ->
     unless animation?.id == @currentAnimation?.id

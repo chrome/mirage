@@ -1,12 +1,11 @@
 class Mirage.ImageResource extends Mirage.Resource
 
-
-  constructor: ->
+  @initialize (options) ->
+    @extractOptions(options, 'url')
     @image = null
 
     @width = 0
     @height = 0
-    super
 
   load: (cb) ->
     @image = new Image()
