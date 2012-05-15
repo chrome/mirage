@@ -18,8 +18,9 @@ class Mirage.Scene extends Mirage.Object
 
   setCameraPosition: (@x, @y) ->
 
-  setBackground: (@backgroundImage) ->
-    console.log 'Set', @backgroundImage
+  translateCamera: (dX, dY) ->
+    @x += dX
+    @y += dY
 
   render: ->
     actor.render?() for id, actor of @actors
