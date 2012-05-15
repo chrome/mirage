@@ -1,3 +1,35 @@
+class Background extends Mirage.Actor
+  @initialize ->
+    @rm = window.game.rm
+
+    @image = @rm.get('stars')
+
+    @x = 0
+    @y = 0
+
+  render: ->
+    @x = - window.game.getScene('main').x
+    @y = - window.game.getScene('main').y
+
+    # console.log @x, @y
+
+    context = Mirage.renderer().getContext()
+    canvas = Mirage.renderer().getCanvas()
+
+    ptrn = context.createPattern(@image.get(),'repeat')
+    # console.log ptrn
+    # debugger
+    dX = (@x/2) % @image.width
+    dY = (@y/2) % @image.height
+
+    context.fillStyle = ptrn
+    context.translate(-@x + dX, -@y + dY)
+
+
+    context.fillRect(-canvas.width, -canvas.height, canvas.width * 2 + @image.width, canvas.height * 2 + @image.height)
+    context.translate(@x - dX, @y - dY)
+
+
 class Asteroid extends Mirage.AnimatedSprite
   @initialize (options) ->
     @extractOptions(options, 'x', 'y')
@@ -98,7 +130,7 @@ class Spaceship  extends Mirage.AnimatedSprite
 
     @setAnimation(@rm.get('ship-stand'))
 
-    @moveTo(100, 100)
+    @moveTo(400, 400)
 
     @fireTime = 0
     @activeGun = true
@@ -172,16 +204,25 @@ class Spaceship  extends Mirage.AnimatedSprite
       @setAnimation(@rm.get('ship-stand'))
       @stop()
 
-    if @x < 0
-      @x = 0
-    if @x > Mirage.renderer().getCanvas().width
-      @x = Mirage.renderer().getCanvas().width
-    if @y < 0
-      @y = 0
-    if @y > Mirage.renderer().getCanvas().height
-      @y = Mirage.renderer().getCanvas().height
 
-    window.game.getScene('main').setCameraPosition(@x - Mirage.renderer().getCanvas().width / 2, @y - Mirage.renderer().getCanvas().height / 2)
+    cdX = 0
+    cdY = 0
+
+    scrollPart = 3
+
+    if (@x - window.game.getScene('main').x) < Mirage.renderer().getCanvas().width / scrollPart && dXY.x < 0
+      cdX = Mirage.renderer().getCanvas().width / scrollPart - (@x - window.game.getScene('main').x)
+
+    if (@x - window.game.getScene('main').x) > Mirage.renderer().getCanvas().width / scrollPart * (scrollPart-1) && dXY.x > 0
+      cdX = Mirage.renderer().getCanvas().width / scrollPart * (scrollPart-1) - (@x - window.game.getScene('main').x)
+
+    if (@y - window.game.getScene('main').y) < Mirage.renderer().getCanvas().height / scrollPart && dXY.y < 0
+      cdY = Mirage.renderer().getCanvas().height / scrollPart - (@y - window.game.getScene('main').y)
+
+    if (@y - window.game.getScene('main').y) > Mirage.renderer().getCanvas().height / scrollPart * (scrollPart-1) && dXY.y > 0
+      cdY = Mirage.renderer().getCanvas().height / scrollPart * (scrollPart-1) - (@y - window.game.getScene('main').y)
+
+    window.game.getScene('main').translateCamera(-cdX, -cdY)#@x - Mirage.renderer().getCanvas().width / 2, @y - Mirage.renderer().getCanvas().height / 2)
 
 
 class TestGame extends Mirage.Game
@@ -201,8 +242,8 @@ class TestGame extends Mirage.Game
       @startLoop()
 
   createActors: ->
-    @getScene('main').setBackground(@rm.get('stars'))
     @getScene('main')
+      .addActor(new Background('background'))
       .addActor(new Spaceship('main-ship'))
     for i in [0..10]
       @getScene('main')
